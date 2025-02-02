@@ -1,9 +1,12 @@
 package br.com.apicsv;
 
+import org.glassfish.jersey.server.ResourceConfig;
+
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
 
 @ApplicationPath("/api")
-public class App extends Application {
-    // No additional configuration is needed here
+public class App extends ResourceConfig {
+    public App() {
+        packages("br.com.apicsv.controllers");
+    }
 }

@@ -1,14 +1,22 @@
 package br.com.apicsv.service;
 
+import br.com.apicsv.model.User;
+
 import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+
+@ApplicationScoped
 public class UserService {
+
     @Resource(name = "jdbc/cadastrocsv")
     private DataSource dataSource;
 
@@ -35,19 +43,37 @@ public class UserService {
         try (Connection conn = dataSource.getConnection();
              BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
 
-            String sql = "SELECT * FROM users";
-            try (PreparedStatement stmt = conn.prepareStatement(sql);
-                 ResultSet rs = stmt.executeQuery()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
+            ResultSet rs = stmt.executeQuery();
 
-                while (rs.next()) {
-                    String line = rs.getInt("id") + "#" +
-                            rs.getString("name") + "#" +
-                            rs.getString("email") + "#" +
-                            rs.getString("phone");
-                    bw.write(line);
-                    bw.newLine();
-                }
+            while (rs.next()) {
+                bw.write("#" + rs.getString("name") + ";#" + rs.getString("email") + ";#" + rs.getString("phone"));
+                bw.newLine();
             }
         }
+    }
+
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
+
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                users.add(user);
+            }
+            return users;
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return users;
     }
 }
