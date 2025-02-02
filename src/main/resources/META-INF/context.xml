@@ -1,7 +1,0 @@
-<Context>
-    <Resource name="jdbc/cadastrocsv" auth="Container"
-              type="javax.sql.DataSource" username="root" password="Umabemdificil@2025"
-              driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/cadastrocsv"
-              maxActive="20" maxIdle="10" maxWait="-1"/>
-</Context>

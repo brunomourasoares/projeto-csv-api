@@ -1,32 +1,56 @@
 # API CSV
 
 ## Descrição
-A aplicação **API CSV** é um serviço RESTful desenvolvido em Java que permite a importação de dados de arquivos CSV para um banco de dados PostgreSQL. Utiliza o framework Jersey para a criação dos endpoints REST e o Yasson para a serialização e desserialização de objetos JSON.
+A aplicação **API CSV** é um serviço RESTful desenvolvido em Java que permite a importação de dados de arquivos CSV para um banco de dados PostgreSQL. Utiliza o framework Jersey para a criação dos endpoints REST.
 
 ## Funcionalidades
-- **Importação de CSV**: Permite a importação de dados de arquivos CSV para o banco de dados.
-- **Consulta de Dados**: Oferece endpoints para consulta dos dados importados.
-- **Gerenciamento de Transações**: Utiliza a API de transações Java (JTA) para garantir a integridade dos dados.
+1. **Importação de arquivos CSV**:
+
+Permite a importação de dados de arquivos CSV para o banco de dados.
+
+2. **Exportar os dados do banco de dados em arquivo de texto**:
+
+Oferece endpoints para consulta dos dados importados.
 
 ## Tecnologias Utilizadas
 - **Java 1.8**
 - **Maven**
 - **Jersey (JAX-RS)**
 - **PostgreSQL**
-- **Yasson (JSON-B)**
-- **Tomcat Servlet API**
-- **JTA (Java Transaction API)**
+- **JBoss**
 
 ## Estrutura do Projeto
-- **`pom.xml`**: Configurações do Maven e dependências do projeto.
-- **`src/main/webapp/WEB-INF/beans.xml`**: Configurações de beans para o CDI.
-- **`src/main/webapp/WEB-INF/web.xml`**: Configurações do servlet e mapeamento de URLs.
+```
+|-- src
+|   |-- main
+|      |-- java
+|         |-- br
+|            |-- com
+|               |-- apicsv
+|                  |-- controllers
+|                     |-- UserController.java
+|                  |-- models
+|                     |-- User.java
+|                  |-- repositories
+|                     |-- UserRepository.java
+|                  |-- Services
+|                     |-- UserService.java
+|                  |-- App.java
+|      |-- resources
+|         |-- META-INF
+|            |-- beans.xml
+|-- data
+|   |-- lista.csv
+|-- .gitignore
+|-- pom.xml
+|-- README.md
+```
 
 ## Como Executar
 1. **Clone o repositório**:
     ```sh
-    git clone https://github.com/seu-usuario/api-csv.git
-    cd api-csv
+    git clone git@github.com:brunomourasoares/projeto-csv-api.git
+    cd projeto-csv-api
     ```
 
 2. **Compile o projeto**:
@@ -41,9 +65,14 @@ A aplicação **API CSV** é um serviço RESTful desenvolvido em Java que permit
     http://localhost:8080/api-csv/api/
     ```
 
-## Endpoints Principais
-- **Importar CSV**: `POST /api/import`
-- **Consultar Dados**: `GET /api/data`
+## Exemplo de Endpoints
+- **Importar CSV**: `POST /api/data/import`
+
+Usando postman, selecione tipo raw, e no campo abaixo, insira o caminho. Ex: D:/teste/lista.csv
+
+- **Consultar Dados**: `GET /api/data/export?filePath=D:/teste/file.txt`
+
+Pode ser usado tanto no navegador quanto no postman
 
 ## Contribuição
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
